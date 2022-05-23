@@ -47,10 +47,11 @@
 	<br>
 	
 	<div class="center">
-		<form action="knx" method="post">
-			<button name="instruction" class="button1" id="buttonStartChenillard" value="startChenillard" onmouseup="startChenillard(1)">Start Chenillard </button>
+		<!-- <form action="knx" method="post"> -->
+			<button name="instruction" class="button1" id="buttonStartChenillard1" value="startChenillard1" onmouseup="startChenillard(1)">Start Chenillard 1</button>
+			<button name="instruction" class="button1" id="buttonStartChenillard2" value="startChenillard2" onmouseup="startChenillard(2)">Start Chenillard 2</button>
 	  		<button name="instruction" class="button1" id="buttonStopChenillard" value="stopChenillard" onmouseup="stopChenillard()">Stop Chenillard </button>
-	  	</form>
+	  	<!-- </form> -->
 	
 	<label class="text" for="pet-select">Choose a speed:</label>
 	

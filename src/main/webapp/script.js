@@ -1,13 +1,47 @@
-import { XMLHttpRequest } from "xmlhttprequest";
+//import { XMLHttpRequest } from "xmlhttprequest";
+
+const sendHttpRequest = (method, url, instruction) => {
+  params = 'instruction='+instruction
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.responseType = 'json';
+    if (instruction) {
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    }
+    xhr.onload = () => {
+      if (xhr.status >= 400) {
+        reject(xhr.response);
+      } else {
+        resolve(xhr.response);
+      }
+    };
+    xhr.onerror = () => {
+      reject('Something went wrong!');
+    };
+    xhr.send(params);
+  });
+  return promise;
+};
+
+const sendData = (instruction) => {
+  sendHttpRequest('POST', 'http://localhost:8081/knx/knx', instruction)
+    .then(responseData => {
+      console.log(responseData);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
 
 var start = false;
 var i = 0;
 
-console.log("Trying to connect to the websocket server");
+//console.log("Trying to connect to the websocket server");
 
 const button = document.getElementById("buttonChenillard");
 
-var ws = new WebSocketClient('ws', '127.0.0.1', 8081, '/KNX_Server/endpoint');
+//var ws = new WebSocketClient('ws', '127.0.0.1', 8081, '/KNX_Server/endpoint');
 
 
 ws.connect();
@@ -16,22 +50,7 @@ var value;
 var value2;
 var value3;
 
-/*var xhr = new XMLHttpRequest();
-xhr.open("POST", '127.0.0.1:8081', true);
-xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-xhr.onreadystatechange = function() {
-  if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 201) {
-    console.log(JSON.parse(xhr.responseText));
-  }
-  else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 201){
-    console.log("Error");
-  }
-}*/
-
 function changeImage(id) { 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "knx");
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     i++;
     var Image_Id = document.getElementById(id);
     const extractFilename = (path) => {
@@ -43,18 +62,15 @@ function changeImage(id) {
     if (fileName == "lightbulb.png") 
     {
         Image_Id.src = "lightbulb2.png";
-        console.log("led on : "+id)
-        ws.send("led-on : " + id);
         value = id;
-        xhr.send("LED="+id+"&state=on");
+        sendData("allume"+id);
     }
     else 
     {
         Image_Id.src = "lightbulb.png";
-        //ws.send("led-off : " + id);
         value = id;
         value2 = "off";
-        xhr.send("LED="+id+"&state=off");
+        sendData("eteins"+id);
     }   
 }
     
@@ -67,7 +83,6 @@ function eteindreLED(id){
     };
     Image_Id.src = "lightbulb.png";
     value = id;
-    //xhr.send("LED="+id+"&state=off");
 }
 
 function allumerLED(id){
@@ -79,15 +94,15 @@ function allumerLED(id){
     };
     Image_Id.src = "lightbulb2.png";
     value = id;
-    //xhr.send("LED="+id+"&state=on");
 }
 
 function stopChenillard(){
     start = false;
-    //xhr.send("LED=Chenillaird&state=off");
+    sendData("stopChenillard");
 }
 
 function startChenillard(vitesse){
+	sendData("startChenillard");
     start = true;
 
     const list = ["L1","L2","L3","L4"];
@@ -102,41 +117,6 @@ function startChenillard(vitesse){
     var e = document.getElementById("speed-select");
     vitesse = e.value;
     if(vitesse==''){vitesse = 1;}
-    //xhr.send("LED=Chenillaird&state=on&speed="+vitesse);
-   
-    //console.log(vitesse);
-    //i=100;
-    //ws.send("Chenillard Requested at speed : "+vitesse);
-
-    
-
-    //ws.send('Chenillard started');
-    //temps = 1000/vitesse;
-    //  chenillard(temps);
-}
-
-function chenillard(temps){
-  const list = ["L1","L2","L3","L4"];
-  //ws.send('Chenillard started');
-
-  /**while(i<100){
-    setTimeout(function() {changeImage(list[i%4]);},i*temps);
-    if(i%4==3){
-      setTimeout(function() {changeImage(list[1]);},i*temps);
-    }
-
-    if(i%4==2){
-      setTimeout(function() {changeImage(list[0]);},i*temps);
-    }
-
-    if(i>3 && i%4==0){
-      setTimeout(function() {changeImage(list[2]);},i*temps);
-    }
-
-    if(i>3 && i%4==1){
-      setTimeout(function() {changeImage(list[3]);},i*temps);
-    }
-  }**/
 }
 
 

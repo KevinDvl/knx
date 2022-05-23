@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.knx.Instructions;
+
 //commentaire test
 /**
  * Servlet implementation class RestKNX
@@ -27,8 +29,8 @@ public class RestKNX extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String instruction = request.getParameter("instruction");
-		System.out.println(instruction);
+		Instructions instruction = new Instructions();
+		instruction.lancerInstruction(request);
 		
 		this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 	}
