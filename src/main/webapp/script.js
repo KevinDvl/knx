@@ -39,12 +39,10 @@ var i = 0;
 
 //console.log("Trying to connect to the websocket server");
 
-const button = document.getElementById("buttonChenillard");
-
 //var ws = new WebSocketClient('ws', '127.0.0.1', 8081, '/KNX_Server/endpoint');
 
 
-ws.connect();
+//ws.connect();
 //ws.send("This is a test message");
 var value;
 var value2;
@@ -99,11 +97,18 @@ function allumerLED(id){
 function stopChenillard(){
     start = false;
     sendData("stopChenillard");
+    document.getElementById("buttonStopChenillard").disabled = true;
 }
 
-function startChenillard(vitesse){
-	sendData("startChenillard");
-    start = true;
+function startChenillard(numChenillard){
+	if(numChenillard == 1) {
+		sendData("startChenillard1");		
+	}
+	else {
+		sendData("startChenillard2");
+	}
+	document.getElementById("buttonStopChenillard").disabled = false;
+    /*start = true;
 
     const list = ["L1","L2","L3","L4"];
 
@@ -116,7 +121,7 @@ function startChenillard(vitesse){
     var temps;
     var e = document.getElementById("speed-select");
     vitesse = e.value;
-    if(vitesse==''){vitesse = 1;}
+    if(vitesse==''){vitesse = 1;}*/
 }
 
 

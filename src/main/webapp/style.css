@@ -17,11 +17,14 @@ p { text-align: center }
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition-duration: 0.4s;
 }
 
 .button0 {
   background-color: #CECECE;
-
+  border-radius: 8px;
   color: white;
   padding: 15px 32px;
   text-align: center;
@@ -30,6 +33,18 @@ p { text-align: center }
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+  transition-duration: 0.4s;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button0:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.button1:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
 }
 
 
